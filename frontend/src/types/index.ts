@@ -4,12 +4,15 @@ export interface User {
   id: string
   email: string
   role: UserRole
+  name?: string
+  is_active?: boolean
   created_at: string
+  updated_at?: string
 }
 
 export interface Student {
   id: string
-  user_id: string
+  user_id?: string
   university_roll: string
   upid?: string
   name: string
@@ -19,17 +22,21 @@ export interface Student {
   section?: string
   mobile?: string
   email?: string
+  created_at?: string
+  updated_at?: string
 }
 
 export interface Faculty {
   id: string
-  user_id: string
+  user_id?: string
   name: string
   designation?: string
   department: string
   signature_url?: string
   mobile?: string
   email?: string
+  created_at?: string
+  updated_at?: string
 }
 
 export interface Subject {
@@ -43,6 +50,8 @@ export interface Subject {
   full_marks_ca3: number
   faculty_id?: string
   faculty?: Faculty
+  created_at?: string
+  updated_at?: string
 }
 
 export interface CourseOutcome {
@@ -51,6 +60,7 @@ export interface CourseOutcome {
   co_number: string
   description?: string
   bloom_level?: string
+  created_at?: string
 }
 
 export type AssessmentStatus = 'draft' | 'submitted' | 'approved'

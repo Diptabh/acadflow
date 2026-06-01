@@ -4,6 +4,9 @@ from fastapi.responses import JSONResponse
 
 from app.core.config import settings
 from app.api.auth import router as auth_router
+from app.api.students import router as students_router
+from app.api.faculty import router as faculty_router
+from app.api.subjects import router as subjects_router
 
 
 def create_app() -> FastAPI:
@@ -26,6 +29,9 @@ def create_app() -> FastAPI:
     
     # Include routers
     app.include_router(auth_router)
+    app.include_router(students_router)
+    app.include_router(faculty_router)
+    app.include_router(subjects_router)
     
     # Health check endpoint
     @app.get("/health")
