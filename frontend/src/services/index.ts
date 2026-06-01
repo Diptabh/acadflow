@@ -7,13 +7,19 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  token: string
+  access_token: string
+  token_type?: string
   user: User
 }
 
 export const authService = {
   login: async (data: LoginRequest): Promise<LoginResponse> => {
     const response = await api.post<LoginResponse>('/auth/login', data)
+    // Store token in localStorage
+    if (response.data.access_token) {
+      localStorage.setItem('acadflow_token', response.data.access_token)
+      localStorage.setItem('acadflow_user', JSON.stringify(response.data.user))
+    }
     return response.data
   },
 

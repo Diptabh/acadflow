@@ -7,10 +7,18 @@
 CREATE TABLE IF NOT EXISTS users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     email VARCHAR(255) UNIQUE NOT NULL,
+    password_hash VARCHAR(255),  -- For manual auth (bcrypt hash)
     role VARCHAR(20) NOT NULL CHECK (role IN ('admin', 'faculty', 'hod', 'student')),
+    name VARCHAR(100),
+    is_active BOOLEAN DEFAULT true,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+-- Create initial admin user (password: admin123)
+INSERT INTO users (email, password_hash, role, name) 
+VALUES ('admin@acadflow.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewKyDAAC7b.UJCGy', 'admin', 'System Admin')
+ON CONFLICT (email) DO NOTHING;
 
 -- ============================================================
 -- STUDENTS

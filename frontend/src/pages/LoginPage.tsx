@@ -18,13 +18,28 @@ export default function LoginPage() {
     setLoading(true)
     try {
       const response = await authService.login(data)
-      localStorage.setItem('acadflow_token', response.token)
-      localStorage.setItem('acadflow_user', JSON.stringify(response.user))
-      
       toast.success('Login successful!')
-      navigate('/dashboard')
+      
+      // Redirect based on role
+      const user = response.user
+      switch (user?.role) {
+        case 'admin':
+          navigate('/admin')
+          break
+        case 'faculty':
+          navigate('/faculty')
+          break
+        case 'hod':
+          navigate('/hod')
+          break
+        case 'student':
+          navigate('/student')
+          break
+        default:
+          navigate('/dashboard')
+      }
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Invalid credentials')
+      toast.error(error.response?.data?.detail || 'Invalid credentials')
     } finally {
       setLoading(false)
     }
@@ -82,6 +97,10 @@ export default function LoginPage() {
               {loading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
+
+          <p className="text-center text-gray-500 text-small mt-6">
+            Demo: admin@acadflow.com / admin123
+          </p>
         </div>
 
         {/* Footer */}

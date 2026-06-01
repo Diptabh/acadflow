@@ -34,4 +34,33 @@ api.interceptors.response.use(
   }
 )
 
+// Auth API
+export const authApi = {
+  login: (email: string, password: string) => api.post('/auth/login', { email, password }),
+  register: (email: string, password: string, role: string) =>
+    api.post('/auth/register', { email, password, role }),
+  getMe: () => api.get('/auth/me'),
+}
+
+export const login = async (email: string, password: string) => {
+  const response = await authApi.login(email, password)
+  if (response.data.access_token) {
+    localStorage.setItem('acadflow_token', response.data.access_token)
+    localStorage.setItem('acadflow_user', JSON.stringify(response.data.user))
+  }
+  return response.data
+}
+
+export const logout = () => {
+  localStorage.removeItem('acadflow_token')
+  localStorage.removeItem('acadflow_user')
+}
+
+export const getCurrentUser = () => {
+  const userStr = localStorage.getItem('acadflow_user')
+  return userStr ? JSON.parse(userStr) : null
+}
+
+export const getToken = () => localStorage.getItem('acadflow_token')
+
 export default api

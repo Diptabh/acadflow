@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.core.config import settings
+from app.api.auth import router as auth_router
 
 
 def create_app() -> FastAPI:
@@ -22,6 +23,9 @@ def create_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+    
+    # Include routers
+    app.include_router(auth_router)
     
     # Health check endpoint
     @app.get("/health")
