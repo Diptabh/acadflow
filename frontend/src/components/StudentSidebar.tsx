@@ -1,24 +1,13 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
 
-export const Sidebar: React.FC = () => {
-    const { role } = useAuth();
+export const StudentSidebar: React.FC = () => {
     const location = useLocation();
 
-    const facultyLinks = [
-        { name: 'Dashboard', path: '/faculty/dashboard' },
-        { name: 'Subjects', path: '/faculty/subjects' },
-        { name: 'Students', path: '/faculty/students' },
-        { name: 'Settings', path: '/faculty/settings' },
-    ];
-
-    const studentLinks = [
+    const links = [
         { name: 'Dashboard', path: '/student/dashboard' },
         { name: 'My Marks', path: '/student/marks' },
     ];
-
-    const links = role === 'faculty' ? facultyLinks : studentLinks;
 
     return (
         <div className="w-64 bg-gray-800 min-h-screen text-white p-4">

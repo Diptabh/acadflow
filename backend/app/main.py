@@ -8,6 +8,8 @@ from app.api.subjects import router as subjects_router
 from app.api.sections import router as sections_router
 from app.api.faculty import router as faculty_router
 from app.api.ca3 import router as ca3_router
+from app.api.uploads import router as uploads_router
+from app.api.student_marks import router as student_marks_router
 
 def create_app() -> FastAPI:
     app = FastAPI(
@@ -31,6 +33,8 @@ def create_app() -> FastAPI:
     app.include_router(sections_router)
     app.include_router(faculty_router)
     app.include_router(ca3_router)
+    app.include_router(uploads_router)
+    app.include_router(student_marks_router)
     
     @app.get("/")
     async def root():
