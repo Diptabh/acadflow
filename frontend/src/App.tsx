@@ -7,6 +7,7 @@ import { FacultyDashboard } from './pages/FacultyDashboard';
 import { FacultySubjects } from './pages/FacultySubjects';
 import { FacultyStudents } from './pages/FacultyStudents';
 import { FacultySettings } from './pages/FacultySettings';
+import { CA3Evaluation } from './pages/CA3Evaluation';
 import { StudentDashboard } from './pages/StudentDashboard';
 import { Layout } from './components/Layout';
 
@@ -22,6 +23,7 @@ function App() {
             <Route path="/faculty/subjects" element={<Layout><FacultySubjects /></Layout>} />
             <Route path="/faculty/students" element={<Layout><FacultyStudents /></Layout>} />
             <Route path="/faculty/settings" element={<Layout><FacultySettings /></Layout>} />
+            <Route path="/faculty/ca3" element={<Layout><CA3Evaluation /></Layout>} />
           </Route>
 
           <Route element={<ProtectedRoute allowedRoles={['student']} />}>
