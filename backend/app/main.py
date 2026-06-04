@@ -1,24 +1,21 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
 
 from app.core.config import settings
 from app.api.auth import router as auth_router
 from app.api.students import router as students_router
-from app.api.faculty import router as faculty_router
 from app.api.subjects import router as subjects_router
-
+from app.api.sections import router as sections_router
+from app.api.faculty import router as faculty_router
 
 def create_app() -> FastAPI:
     app = FastAPI(
         title=settings.APP_NAME,
         version=settings.APP_VERSION,
-        description="Unified Assessment Automation Platform for Engineering Colleges",
         docs_url="/docs",
         redoc_url="/redoc",
     )
     
-    # CORS middleware
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.CORS_ORIGINS,
@@ -27,30 +24,19 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
     
-    # Include routers
     app.include_router(auth_router)
     app.include_router(students_router)
-    app.include_router(faculty_router)
     app.include_router(subjects_router)
-    
-    # Health check endpoint
-    @app.get("/health")
-    async def health_check():
-        return {"status": "healthy", "version": settings.APP_VERSION}
+    app.include_router(sections_router)
+    app.include_router(faculty_router)
     
     @app.get("/")
     async def root():
-        return {
-            "message": "AcadFlow API",
-            "version": settings.APP_VERSION,
-            "docs": "/docs"
-        }
+        return {"message": "AcadFlow API"}
     
     return app
 
-
 app = create_app()
-
 
 if __name__ == "__main__":
     import uvicorn
