@@ -10,11 +10,10 @@ class Settings(BaseSettings):
     
     # Supabase
     SUPABASE_URL: str = ""
-    SUPABASE_ANON_KEY: str = ""
-    SUPABASE_SERVICE_KEY: str = ""
+    SUPABASE_KEY: str = "" # Service Key
     
     # JWT
-    SECRET_KEY: str = "your-secret-key-change-in-production"
+    JWT_SECRET: str = "random_long_string"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
     
@@ -22,6 +21,8 @@ class Settings(BaseSettings):
     CORS_ORIGINS: list[str] = ["*"]
     
     # Email (Resend)
+    GEMINI_API_KEY: Optional[str] = None
+    GROQ_API_KEY: Optional[str] = None
     RESEND_API_KEY: Optional[str] = None
     EMAIL_FROM: str = "AcadFlow <noreply@acadflow.com>"
     
@@ -36,6 +37,7 @@ class Settings(BaseSettings):
     class Config:
         env_file = ".env"
         case_sensitive = True
+        extra = "ignore"
 
 
 settings = Settings()

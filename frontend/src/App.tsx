@@ -1,92 +1,47 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { Toaster } from 'react-hot-toast'
-
-// Layouts
-import DashboardLayout from './components/layouts/DashboardLayout'
-
-// Auth Pages
-import LoginPage from './pages/LoginPage'
-
-// Dashboard Pages
-import DashboardPage from './pages/DashboardPage'
-
-// Admin Pages
-import AdminDashboardPage from './pages/AdminDashboardPage'
-import StudentsPage from './pages/StudentsPage'
-import StudentFormPage from './pages/StudentFormPage'
-import SubjectsPage from './pages/SubjectsPage'
-import SubjectFormPage from './pages/SubjectFormPage'
-import FacultyPage from './pages/FacultyPage'
-import FacultyFormPage from './pages/FacultyFormPage'
-import SettingsPage from './pages/SettingsPage'
-
-// Assessment Pages
-import AssessmentHubPage from './pages/AssessmentHubPage'
-import StudentPortalPage from './pages/StudentPortalPage'
-
-// Helper component to check admin access
-const AdminRoute = ({ children }: { children: React.ReactNode }) => {
-  const user = JSON.parse(localStorage.getItem('acadflow_user') || '{}')
-  if (user.role !== 'admin') {
-    return <Navigate to="/dashboard" replace />
-  }
-  return <>{children}</>
-}
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import { Login } from './pages/Login';
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { FacultyDashboard } from './pages/FacultyDashboard';
+import { FacultySubjects } from './pages/FacultySubjects';
+import { FacultyStudents } from './pages/FacultyStudents';
+import { FacultySettings } from './pages/FacultySettings';
+import { CA3Evaluation } from './pages/CA3Evaluation';
+import { FacultyCA1 } from './pages/FacultyCA1';
+import { FacultyCA2 } from './pages/FacultyCA2';
+import { StudentDashboard } from './pages/StudentDashboard';
+import { StudentMarks } from './pages/StudentMarks';
+import { Layout } from './components/Layout';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Toaster position="top-right" />
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/login" element={<LoginPage />} />
-        
-        {/* Protected Routes */}
-        <Route path="/" element={<DashboardLayout />}>
-          <Route index element={<Navigate to="/dashboard" replace />} />
-          <Route path="dashboard" element={<DashboardPage />} />
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
           
-          {/* Admin Routes */}
-          <Route path="admin" element={
-            <AdminRoute><AdminDashboardPage /></AdminRoute>
-          } />
-          <Route path="admin/students" element={
-            <AdminRoute><StudentsPage /></AdminRoute>
-          } />
-          <Route path="admin/students/new" element={
-            <AdminRoute><StudentFormPage /></AdminRoute>
-          } />
-          <Route path="admin/faculty" element={
-            <AdminRoute><FacultyPage /></AdminRoute>
-          } />
-          <Route path="admin/faculty/new" element={
-            <AdminRoute><FacultyFormPage /></AdminRoute>
-          } />
-          <Route path="admin/subjects" element={
-            <AdminRoute><SubjectsPage /></AdminRoute>
-          } />
-          <Route path="admin/subjects/new" element={
-            <AdminRoute><SubjectFormPage /></AdminRoute>
-          } />
-          
-          {/* General Routes */}
-          <Route path="students" element={<StudentsPage />} />
-          <Route path="subjects" element={<SubjectsPage />} />
-          <Route path="faculty" element={<FacultyPage />} />
-          <Route path="settings" element={<SettingsPage />} />
-          
-          {/* Assessment Hub */}
-          <Route path="assessment/:subjectId" element={<AssessmentHubPage />} />
-          
-          {/* Student Portal */}
-          <Route path="portal" element={<StudentPortalPage />} />
-        </Route>
-        
-        {/* Fallback */}
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
-      </Routes>
-    </BrowserRouter>
-  )
+          <Route element={<ProtectedRoute allowedRoles={['faculty']} />}>
+            <Route path="/faculty/dashboard" element={<Layout><FacultyDashboard /></Layout>} />
+            <Route path="/faculty/subjects" element={<Layout><FacultySubjects /></Layout>} />
+            <Route path="/faculty/students" element={<Layout><FacultyStudents /></Layout>} />
+            <Route path="/faculty/settings" element={<Layout><FacultySettings /></Layout>} />
+            <Route path="/faculty/ca3" element={<Layout><CA3Evaluation /></Layout>} />
+            <Route path="/faculty/ca1" element={<Layout><FacultyCA1 /></Layout>} />
+            <Route path="/faculty/ca2" element={<Layout><FacultyCA2 /></Layout>} />
+          </Route>
+
+          <Route element={<ProtectedRoute allowedRoles={['student']} />}>
+            <Route path="/student/dashboard" element={<Layout><StudentDashboard /></Layout>} />
+            <Route path="/student/marks" element={<Layout><StudentMarks /></Layout>} />
+          </Route>
+
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;
