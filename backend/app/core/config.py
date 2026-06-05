@@ -21,6 +21,8 @@ class Settings(BaseSettings):
     CORS_ORIGINS: list[str] = ["*"]
     
     # Email (Resend)
+    GEMINI_API_KEY: Optional[str] = None
+    GROQ_API_KEY: Optional[str] = None
     RESEND_API_KEY: Optional[str] = None
     EMAIL_FROM: str = "AcadFlow <noreply@acadflow.com>"
     

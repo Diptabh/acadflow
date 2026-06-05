@@ -9,6 +9,7 @@ import { FacultyStudents } from './pages/FacultyStudents';
 import { FacultySettings } from './pages/FacultySettings';
 import { CA3Evaluation } from './pages/CA3Evaluation';
 import { FacultyCA1 } from './pages/FacultyCA1';
+import { FacultyCA2 } from './pages/FacultyCA2';
 import { StudentDashboard } from './pages/StudentDashboard';
 import { StudentMarks } from './pages/StudentMarks';
 import { Layout } from './components/Layout';
@@ -27,6 +28,7 @@ function App() {
             <Route path="/faculty/settings" element={<Layout><FacultySettings /></Layout>} />
             <Route path="/faculty/ca3" element={<Layout><CA3Evaluation /></Layout>} />
             <Route path="/faculty/ca1" element={<Layout><FacultyCA1 /></Layout>} />
+            <Route path="/faculty/ca2" element={<Layout><FacultyCA2 /></Layout>} />
           </Route>
 
           <Route element={<ProtectedRoute allowedRoles={['student']} />}>

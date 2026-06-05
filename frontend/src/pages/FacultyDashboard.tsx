@@ -17,7 +17,7 @@ export const FacultyDashboard: React.FC = () => {
                 <div onClick={() => navigate("/faculty/ca1")} className="bg-white p-6 rounded shadow cursor-pointer hover:shadow-lg transition-shadow border-t-4 border-blue-500 flex items-center justify-center h-32">
                     <h2 className="text-xl font-bold text-gray-700">CA1 Entry</h2>
                 </div>
-                <div onClick={() => alert("CA2 Not Implemented Yet")} className="bg-white p-6 rounded shadow cursor-pointer hover:shadow-lg transition-shadow border-t-4 border-green-500 flex items-center justify-center h-32">
+                <div onClick={() => navigate("/faculty/ca2")} className="bg-white p-6 rounded shadow cursor-pointer hover:shadow-lg transition-shadow border-t-4 border-green-500 flex items-center justify-center h-32">
                     <h2 className="text-xl font-bold text-gray-700">CA2 Entry</h2>
                 </div>
                 <div onClick={() => navigate('/faculty/ca3')} className="bg-white p-6 rounded shadow cursor-pointer hover:shadow-lg transition-shadow border-t-4 border-purple-500 flex items-center justify-center h-32">
